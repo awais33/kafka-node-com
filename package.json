@@ -1,0 +1,22 @@
+{
+  "name": "kafka-node-com",
+  "version": "1.0.0",
+  "description": "it is kafka node communication",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/awais33/kafka-node-com.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/awais33/kafka-node-com/issues"
+  },
+  "homepage": "https://github.com/awais33/kafka-node-com#readme",
+  "dependencies": {
+    "kafkajs": "^1.16.0"
+  }
+}
