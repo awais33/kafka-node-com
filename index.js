@@ -8,7 +8,6 @@ class KafkaLibrary
     #producer;
     #consumer;
     #groupId;
-    #currentTopic;
 
     constructor(clientId='app', brokers=['127.0.0.1:9092'], groupId='test-group')
     {
@@ -18,9 +17,7 @@ class KafkaLibrary
             return "brokers should be in array format"
         }
         this.#clientId = clientId;
-        // this.#topics = topics;
         this.#groupId = groupId;
-        // this.#payload = payload;
     }
     producerConnect() 
     {
@@ -28,13 +25,9 @@ class KafkaLibrary
             clientId: this.#clientId,
             brokers: this.#brokers,
             requestTimeout: 25000,
-            // retry: {
-            //     initialRetryTime: 100,
-            //     retries: 8
-            // }
+           
         });
         this.#producer = this.#kafka.producer();
-        // this.#consumer = this.#kafka.consumer({ groupId: this.#groupId });
     }
     consumerConnect() 
     {
@@ -42,18 +35,11 @@ class KafkaLibrary
             clientId: this.#clientId,
             brokers: this.#brokers,
             requestTimeout: 25000,
-            // retry: {
-            //     initialRetryTime: 100,
-            //     retries: 8
-            // }
+          
         });
         this.#consumer = this.#kafka.consumer({ groupId: this.#groupId });
     }
-    // static init() 
-    // {
-    //     console.log('hello')
-    //     this.connect();
-    // }
+  
     async produce(topic, payload)
     {
         this.producerConnect();
@@ -67,14 +53,21 @@ class KafkaLibrary
         })
         // await this.#producer.disconnect();
     }
+    async getPayload(payload) {
+        console.log(payload.toString())
+        const payloadSend = JSON.stringify(payload.toString())
+        return payloadSend
+    }
+
     async consume(topic)
     {
+        let _this = this;
         this.consumerConnect();
-        // const topic = this.#topics
         await this.#consumer.connect()
         await this.#consumer.subscribe({ topic, fromBeginning: true })
         await this.#consumer.run({
             eachMessage: async ({ topic, partition, message }) => {
+               await _this.getPayload(message.value)
                 console.log({
                 value: message.value.toString(),
                 })
